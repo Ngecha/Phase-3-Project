@@ -7,13 +7,7 @@ Base=declarative_base()
 
 #Circuit Model
 class Circuit(Base):
-    __tablename__="circuits"
-    __table_args__= (
-            CheckConstraint(
-            'laps BETWEEN 20 AND 30',
-            name='laps_between_20_and_30')
-    )
-            
+    __tablename__="circuits"       
     
     id=Column(Integer, primary_key=True )
     name=Column(String,nullable=False, unique=True)
@@ -34,7 +28,7 @@ class Circuit(Base):
     @classmethod
     def create_circuit(cls, name,country, laps, previous_winner):
      if __name__=='__main__':
-        engine=create_engine('sqlite: ///F1_Weekend.db')
+        engine=create_engine('sqlite:///F1_Weekend.db')
         Base.metadata.create_all(engine)
         
         Session=sessionmaker(bind=engine)
@@ -48,7 +42,7 @@ class Circuit(Base):
     @classmethod
     def delete_circuit(cls,name):
      if __name__=='__main__':
-        engine=create_engine('sqlite: ///F1_Weekend.db')
+        engine=create_engine('sqlite:///F1_Weekend.db')
         Base.metadata.create_all(engine)
         
         Session=sessionmaker(bind=engine)
@@ -87,3 +81,95 @@ class Circuit(Base):
             return circuit
                 
                         
+class Team(Base):
+    __tablename__= 'teams'
+   
+   #Table Columns 
+    id=Column(Integer, primary_key=True)
+    name=Column(String, unique=True, nullable=False)
+    hometown=Column(String, nullable=False)
+    drivers=Column(String, nullable=False)
+    engine_manufacturer= Column(String, nullable=False)
+     
+    #Relationships
+    events=relationship('event', back_populates='team') 
+    
+    def  __repr__(self):
+        return f"Team number: {self.id}"\
+                +f"Team Name :{self.name}"\
+                +f"Team Hometown: {self.hometown}"\
+                +f"Team Drivers: {self.drivers}"\
+                +f"Engine Manufacturer: {self.engine_manufacturer}"
+        
+    @classmethod
+    def create_team(cls, name,hometown, drivers, engine_manufacturer):
+     if __name__=='__main__':
+        engine=create_engine('sqlite:///F1_Weekend.db')
+        Base.metadata.create_all(engine)
+        
+        Session=sessionmaker(bind=engine)
+        session=Session()     
+        
+        new_team=cls(name=name, hometown=hometown, drivers=drivers, engine_manufacturer=engine_manufacturer)
+        
+        session.add(new_team)
+        session.commit()    
+    
+     
+    @classmethod
+    def delete_team(cls,name):
+     if __name__=='__main__':
+        engine=create_engine('sqlite:///F1_Weekend.db')
+        Base.metadata.create_all(engine)
+        
+        Session=sessionmaker(bind=engine)
+        session=Session()
+         
+        query = session.query(Team).filter(Team.name==name)
+        session.delete(query)
+        session.commit()  
+    
+    
+    @classmethod
+    def get_all_teams(cls):
+        if __name__ == '__main__':
+            # Create the engine and bind it to the session
+            engine = create_engine('sqlite:///F1_Weekend.db')
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            
+            # Query to get all teams
+            all_teams = session.query(cls).all()
+            
+            return all_teams 
+    
+    @classmethod    #Method to find a teams using id
+    def find_by_id(cls, id):
+        if __name__ == '__main__':
+            # Create the engine and bind it to the session
+            engine = create_engine('sqlite:///F1_Weekend.db')
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            
+            # Query to find teams by ID
+            team = session.query(cls).filter_by(id=id).first()
+            
+            return team          
+        
+class Event(Base):
+    __tablename__='events'
+    
+    id=Column(Integer,primary_key=True)
+    name=Column(String,unique=True)
+    circuit_id=Column(String, ForeignKey('circuits.id'))
+    teams_id=Column(String, ForeignKey('teams.id'))
+    
+    #Relationship
+    circuit=relationship('circuit' ,back_populates='events')
+    teams=relationship('circuit', back_populates='events')
+    
+    def __repr__(self):
+        return f"Event number;{self.id}"\
+            +f"Circuit Name: {self.name}"\
+            +f"Circuit id;{self.circuit_id}"\
+                +f"team id: {self.teams_id}"                  
