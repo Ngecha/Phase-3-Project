@@ -5,6 +5,24 @@ from sqlalchemy.orm import relationship, sessionmaker
 Base=declarative_base()
 
 
+class Event(Base):
+    __tablename__='events'
+    
+    id=Column(Integer,primary_key=True)
+    name=Column(String,unique=True)
+    circuit_id=Column(String, ForeignKey('circuits.id'))
+    teams_id=Column(String, ForeignKey('teams.id'))
+    
+    #Relationship
+    circuit=relationship('Circuit' ,back_populates='events')
+    teams=relationship('Circuit', back_populates='events')
+    
+    def __repr__(self):
+        return f"Event number;{self.id}"\
+            +f"Circuit Name: {self.name}"\
+            +f"Circuit id;{self.circuit_id}"\
+                +f"team id: {self.teams_id}"                  
+
 #Circuit Model
 class Circuit(Base):
     __tablename__="circuits"       
@@ -16,7 +34,7 @@ class Circuit(Base):
     previous_winner=Column(String,nullable=True)
     
     #One to one Relationship
-    events=relationship('event', back_populates='circuit')
+    events =relationship('Event', back_populates='circuit')
     
     def  __repr__(self):
         return f"Circuit number: {self.id}"\
@@ -38,6 +56,7 @@ class Circuit(Base):
         
         session.add(new_circuit)
         session.commit()    
+        
         
     @classmethod
     def delete_circuit(cls,name):
@@ -79,7 +98,9 @@ class Circuit(Base):
             session.close()
             
             return circuit
-                
+             
+             
+Circuit.create_circuit('Spa Franco-champs', 'Belgium',43, "Lewis Hamilton")   
                         
 class Team(Base):
     __tablename__= 'teams'
@@ -156,20 +177,3 @@ class Team(Base):
             
             return team          
         
-class Event(Base):
-    __tablename__='events'
-    
-    id=Column(Integer,primary_key=True)
-    name=Column(String,unique=True)
-    circuit_id=Column(String, ForeignKey('circuits.id'))
-    teams_id=Column(String, ForeignKey('teams.id'))
-    
-    #Relationship
-    circuit=relationship('circuit' ,back_populates='events')
-    teams=relationship('circuit', back_populates='events')
-    
-    def __repr__(self):
-        return f"Event number;{self.id}"\
-            +f"Circuit Name: {self.name}"\
-            +f"Circuit id;{self.circuit_id}"\
-                +f"team id: {self.teams_id}"                  
