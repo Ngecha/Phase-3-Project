@@ -1,8 +1,8 @@
-"""Created Events
+"""Sync database with models
 
-Revision ID: 9232f1d6c343
+Revision ID: b1eeb7f9ebfc
 Revises: 7ddc58facf94
-Create Date: 2024-09-19 12:28:23.277972
+Create Date: 2024-09-20 08:39:47.680607
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '9232f1d6c343'
+revision: str = 'b1eeb7f9ebfc'
 down_revision: Union[str, None] = '7ddc58facf94'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -24,9 +24,9 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=True),
     sa.Column('circuit_id', sa.String(), nullable=True),
-    sa.Column('teams_id', sa.String(), nullable=True),
+    sa.Column('team_id', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['circuit_id'], ['circuits.id'], ),
-    sa.ForeignKeyConstraint(['teams_id'], ['teams.id'], ),
+    sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )

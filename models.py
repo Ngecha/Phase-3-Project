@@ -11,17 +11,75 @@ class Event(Base):
     id=Column(Integer,primary_key=True)
     name=Column(String,unique=True)
     circuit_id=Column(String, ForeignKey('circuits.id'))
-    teams_id=Column(String, ForeignKey('teams.id'))
+    team_id=Column(String, ForeignKey('teams.id'))
     
     #Relationship
     circuit=relationship('Circuit' ,back_populates='events')
-    teams=relationship('Circuit', back_populates='events')
+    team=relationship('Team', back_populates='events')
     
     def __repr__(self):
         return f"Event number;{self.id}"\
             +f"Circuit Name: {self.name}"\
             +f"Circuit id;{self.circuit_id}"\
-                +f"team id: {self.teams_id}"                  
+                +f"team id: {self.team_id}"   
+                
+                
+    @classmethod
+    def create_event(cls,name, circuit_id, team_id):
+     if __name__=='__main__':
+        engine=create_engine('sqlite:///F1_Weekend.db')
+        Base.metadata.create_all(engine)
+        
+        Session=sessionmaker(bind=engine)
+        session=Session()     
+        
+        new_event=cls(name=name, circuit_id=circuit_id, team_id=team_id)
+        
+        session.add(new_event)
+        session.commit()    
+    
+     
+    @classmethod
+    def delete_event(cls,id):
+     if __name__=='__main__':
+        engine=create_engine('sqlite:///F1_Weekend.db')
+        Base.metadata.create_all(engine)
+        
+        Session=sessionmaker(bind=engine)
+        session=Session()
+         
+        query = session.query(Event).filter_by(id=id).first()
+        session.delete(query)
+        session.commit()  
+    
+    
+    @classmethod
+    def get_all_events(cls):
+        if __name__ == '__main__':
+            # Create the engine and bind it to the session
+            engine = create_engine('sqlite:///F1_Weekend.db')
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            
+            # Query to get all teams
+            all_events = session.query(cls).all()
+            
+            return all_events 
+    
+    @classmethod    #Method to find a teams using id
+    def find_by_id(cls, id):
+        if __name__ == '__main__':
+            # Create the engine and bind it to the session
+            engine = create_engine('sqlite:///F1_Weekend.db')
+            Session = sessionmaker(bind=engine)
+            session = Session()
+            
+            # Query to find teams by ID
+            event = session.query(cls).filter_by(id=id).first()
+            
+            return event               
+
+
 
 #Circuit Model
 class Circuit(Base):
@@ -99,9 +157,7 @@ class Circuit(Base):
             
             return circuit
              
-             
-Circuit.create_circuit('Spa Franco-champs', 'Belgium',43, "Lewis Hamilton")   
-                        
+                                        
 class Team(Base):
     __tablename__= 'teams'
    
@@ -113,7 +169,7 @@ class Team(Base):
     engine_manufacturer= Column(String, nullable=False)
      
     #Relationships
-    events=relationship('event', back_populates='team') 
+    events=relationship('Event', back_populates='team') 
     
     def  __repr__(self):
         return f"Team number: {self.id}"\
@@ -177,3 +233,5 @@ class Team(Base):
             
             return team          
         
+
+Event.delete_event(1)
