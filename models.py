@@ -113,18 +113,16 @@ class Circuit(Base):
     def get_all_circuits(cls):
             Session = sessionmaker(bind=engine)
             session = Session()
-            all_circuits = session.query(cls).all()
+            all_circuits = session.query(cls.name).all()
             
-            print(all_circuits)  
+            print([name[0] for name in all_circuits])  
     @classmethod
     def find_by_id(cls,id):
             Session = sessionmaker(bind=engine)
             session = Session()
             circuit = session.query(cls).filter_by(id=id).first()
-
-            session.close()
             
-            print (circuit)
+            print (circuit.name)
              
                                         
 class Team(Base):
@@ -174,9 +172,9 @@ class Team(Base):
             session = Session()
             
             # Query to get all teams
-            all_teams = session.query(cls).all()
+            team_names = session.query(cls.name).all()
             
-            return all_teams 
+            print(team_names) 
     
     @classmethod    #Method to find a teams using id
     def find_by_id(cls, id):
@@ -186,6 +184,6 @@ class Team(Base):
             # Query to find teams by ID
             team = session.query(cls).filter_by(id=id).first()
             
-            return team          
+            print(team.name)          
         
-Circuit.find_by_id(1)
+Team.find_by_id(1)

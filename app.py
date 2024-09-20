@@ -8,12 +8,17 @@ def app():
      print("2. Delete a circuit")
      print("3. see all circuits")
      print("4. Find a circuit")
+     print("      **Teams**")
+     print("5. Create team")
+     print("6. Delete team")
+     print("7. See all teams")
+     print("8. Find a team")
         
-# Using try-except to handle invalid input
+     # Using try-except to handle invalid input
      try:
             choice = int(input("Enter your choice to continue: "))
      except ValueError:
-            print("Invalid choice, please enter a number between 1 and 5.")
+            print("Invalid choice, please enter a number between 1 and 8.")
             continue
 
         # Handle different options
@@ -37,16 +42,33 @@ def app():
         print(f"Circuit {name} has been deleted")
      elif choice ==3:
         print("circuits")
-        Circuit.get_all_circuits
-        print("hahaha")
+        Circuit.get_all_circuits()
      elif choice==4:
         print("Circuit")
         id=int(input("Enter the Circuit id:  "))
         print (id)
         Circuit.find_by_id(id)
-     else:
-         choice >=5 
-         print ("Choose a number below 5 ")       
+      
+     elif choice == 5:
+            print("*Creating Team*")
+            name = input("Enter name:  ")
+            hometown = input("Enter Hometown: ")
+            drivers =input("Enter the drivers: ") 
+            engine_manufacturer= input("Enter the engine manufacturer: ")
+            Team.create_team(name, hometown, drivers,engine_manufacturer)
+            print(f"Team** '{name}' **created.")
+     elif choice==6:
+         print("Deleting team") 
+         name=input("Enter Name:  ")
+         Team.delete_team(name)
+         print(f"Team **{name}** has been deleted")
+     elif choice ==7:
+         print("Team")
+         Team.get_all_teams()
+     elif choice==8:
+         print("Teams")
+         id=int(input("Enter the Team id:  "))
+         Team.find_by_id(id)
         
   
   
