@@ -2,14 +2,16 @@ from sqlalchemy import create_engine,CheckConstraint, Column, Integer, String, F
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 
-Base=declarative_base()
 
+engine=create_engine('sqlite:///F1_Weekend.db')
+Base=declarative_base()
+Base.metadata.create_all(engine)
 
 class Event(Base):
     __tablename__='events'
     
     id=Column(Integer,primary_key=True)
-    name=Column(String,unique=True)
+    name=Column(String(15),unique=True)
     circuit_id=Column(String, ForeignKey('circuits.id'))
     team_id=Column(String, ForeignKey('teams.id'))
     
@@ -18,18 +20,14 @@ class Event(Base):
     team=relationship('Team', back_populates='events')
     
     def __repr__(self):
-        return f"Event number;{self.id}"\
-            +f"Circuit Name: {self.name}"\
-            +f"Circuit id;{self.circuit_id}"\
-                +f"team id: {self.team_id}"   
+        return f"Event number; {self.id}"\
+            +f"  Circuit Name: {self.name}"\
+            +f"  Circuit id; {self.circuit_id}"\
+                +f"  team id: {self.team_id}"   
                 
                 
     @classmethod
     def create_event(cls,name, circuit_id, team_id):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
         Session=sessionmaker(bind=engine)
         session=Session()     
         
@@ -41,10 +39,6 @@ class Event(Base):
      
     @classmethod
     def delete_event(cls,id):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
         Session=sessionmaker(bind=engine)
         session=Session()
          
@@ -55,9 +49,6 @@ class Event(Base):
     
     @classmethod
     def get_all_events(cls):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
             Session = sessionmaker(bind=engine)
             session = Session()
             
@@ -68,16 +59,13 @@ class Event(Base):
     
     @classmethod    #Method to find a teams using id
     def find_by_id(cls, id):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
             Session = sessionmaker(bind=engine)
             session = Session()
             
             # Query to find teams by ID
             event = session.query(cls).filter_by(id=id).first()
             
-            return event               
+            print(event)               
 
 
 
@@ -96,17 +84,13 @@ class Circuit(Base):
     
     def  __repr__(self):
         return f"Circuit number: {self.id}"\
-                +f"Circuit Name :{self.name}"\
-                +f"Circuit Country: {self.country}"\
-                +f"Circuit Laps: {self.laps}"\
-                +f"Circuit Previous Winner: {self.previous_winner}"
+                +f"  Circuit Name :{self.name}"\
+                +f"  Circuit Country: {self.country}"\
+                +f"  Circuit Laps: {self.laps}"\
+                +f"  Circuit Previous Winner: {self.previous_winner}"
                 
     @classmethod
-    def create_circuit(cls, name,country, laps, previous_winner):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
+    def create_circuit(cls, name,country, laps, previous_winner):        
         Session=sessionmaker(bind=engine)
         session=Session()     
         
@@ -118,44 +102,29 @@ class Circuit(Base):
         
     @classmethod
     def delete_circuit(cls,name):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
         Session=sessionmaker(bind=engine)
         session=Session()
          
-        query = session.query(Circuit).filter(Circuit.name==name)
+        query = session.query(Circuit).filter_by(name=name).first()
         session.delete(query)
         session.commit()
         
     @classmethod
     def get_all_circuits(cls):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
             Session = sessionmaker(bind=engine)
             session = Session()
-            
-            # Query to get all circuits
             all_circuits = session.query(cls).all()
             
-            return all_circuits  
-    
-    def find_by_id(cls, circuit_id):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
+            print(all_circuits)  
+    @classmethod
+    def find_by_id(cls,id):
             Session = sessionmaker(bind=engine)
             session = Session()
-            
-            # Query to find circuit by ID
-            circuit = session.query(cls).get(circuit_id)  # Or use filter_by(id=circuit_id).first()
-            
-            # Optionally close the session after
+            circuit = session.query(cls).filter_by(id=id).first()
+
             session.close()
             
-            return circuit
+            print (circuit)
              
                                         
 class Team(Base):
@@ -180,10 +149,6 @@ class Team(Base):
         
     @classmethod
     def create_team(cls, name,hometown, drivers, engine_manufacturer):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
         Session=sessionmaker(bind=engine)
         session=Session()     
         
@@ -195,10 +160,6 @@ class Team(Base):
      
     @classmethod
     def delete_team(cls,name):
-     if __name__=='__main__':
-        engine=create_engine('sqlite:///F1_Weekend.db')
-        Base.metadata.create_all(engine)
-        
         Session=sessionmaker(bind=engine)
         session=Session()
          
@@ -209,9 +170,6 @@ class Team(Base):
     
     @classmethod
     def get_all_teams(cls):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
             Session = sessionmaker(bind=engine)
             session = Session()
             
@@ -222,9 +180,6 @@ class Team(Base):
     
     @classmethod    #Method to find a teams using id
     def find_by_id(cls, id):
-        if __name__ == '__main__':
-            # Create the engine and bind it to the session
-            engine = create_engine('sqlite:///F1_Weekend.db')
             Session = sessionmaker(bind=engine)
             session = Session()
             
@@ -233,5 +188,4 @@ class Team(Base):
             
             return team          
         
-
-Event.delete_event(1)
+Circuit.find_by_id(1)
