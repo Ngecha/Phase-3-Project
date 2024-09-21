@@ -36,13 +36,13 @@ The CLI gives the user the following options:
 1. Create a Circuit
 2. Delete a Circuit
 3. See all Circuits
-4. Find a Circuit
+4. Find a Circuit<br>
    **Teams**
-5. Create Team
+5. <br>Create Team
 6. Delete Team
 7. See all Teams
-8. Find a Team
-   **Events**
+8. Find a Team<br>
+   **Events**<br>
 9. Create Event
 10. Delete Event
 11. See all Events
