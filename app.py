@@ -1,7 +1,9 @@
 from models import Event, Circuit, Team
 
 def app():
+    # Infinite loop to keep the CLI running until user chooses to exit
     while True:
+        # Menu for user choices
         print(f"**Welcome to F1 Weekend**")
         print("     **Circuits**")
         print("1. Create a Circuit")
@@ -20,48 +22,55 @@ def app():
         print("12. Find an Event")
         print("0. Quit")
         
-        # Using try-except to handle invalid input
+        # Using try-except to handle invalid input when converting input to integer
         try:
             choice = int(input("Enter your choice to continue: "))
         except ValueError:
+            # If user enters a non-integer, prompt them with an error message and restart loop
             print("Invalid choice, please enter a number between 1 and 12.")
             continue
 
-        # Handle different options
+        # Process user input based on their choice
         if choice == 1:
+            # Create a new Circuit
             print("*Creating Circuit*")
             name = input("Enter name: ")
             country = input("Enter country: ")
             try:
-                laps = int(input("Enter number of laps: ")) 
+                laps = int(input("Enter number of laps: "))  # Validate laps input as integer
             except ValueError:
                 print("Laps must be a valid number.")
                 continue
             previous_winner = input("Enter previous winner: ")
             
+            # Call the Circuit class method to create a circuit
             Circuit.create_circuit(name, country, laps, previous_winner)
             print(f"Circuit '{name}' created.")
         
         elif choice == 2:
+            # Delete a Circuit by name
             print("Deleting Circuit") 
             name = input("Enter Circuit name: ")
             Circuit.delete_circuit(name)
             print(f"Circuit '{name}' has been deleted.")
         
         elif choice == 3:
+            # Display all Circuits
             print("Listing all Circuits...")
             Circuit.get_all_circuits()
         
         elif choice == 4:
+            # Find a Circuit by its ID
             print("Find Circuit")
             try:
-                circuit_id = int(input("Enter the Circuit id: "))
+                circuit_id = int(input("Enter the Circuit id: "))  # Validate circuit ID as integer
             except ValueError:
                 print("Invalid Circuit ID")
                 continue
             Circuit.find_by_id(circuit_id)
         
         elif choice == 5:
+            # Create a new Team
             print("*Creating Team*")
             name = input("Enter team name: ")
             hometown = input("Enter hometown: ")
@@ -71,29 +80,34 @@ def app():
             print(f"Team '{name}' created.")
         
         elif choice == 6:
+            # Delete a Team by name
             print("Deleting Team")
             name = input("Enter Team name: ")
             Team.delete_team(name)
             print(f"Team '{name}' has been deleted.")
         
         elif choice == 7:
+            # Display all Teams
             print("Listing all Teams...")
             Team.get_all_teams()
         
         elif choice == 8:
+            # Find a Team by its ID
             print("Find Team")
             try:
-                team_id = int(input("Enter the Team id: "))
+                team_id = int(input("Enter the Team id: "))  # Validate team ID as integer
             except ValueError:
                 print("Invalid Team ID")
                 continue
             Team.find_by_id(team_id)
+        
         elif choice == 9:
+            # Create a new Event
             print("*Creating Event*")
             name = input("Enter event name: ")
             try:
-                circuit_id = int(input("Enter Circuit id: "))
-                team_id = int(input("Enter Team id: "))
+                circuit_id = int(input("Enter Circuit id: "))  # Validate circuit ID as integer
+                team_id = int(input("Enter Team id: "))  # Validate team ID as integer
             except ValueError:
                 print("Invalid Circuit or Team ID")
                 continue
@@ -101,30 +115,35 @@ def app():
             print(f"Event '{name}' created.")
         
         elif choice == 10:
+            # Delete an Event by name
             print("Deleting Event")
             name = input("Enter Event name: ")
             Event.delete_event(name)
             print(f"Event '{name}' has been deleted.")
         
         elif choice == 11:
+            # Display all Events
             print("Listing all Events...")
             Event.get_all_events()
         
         elif choice == 12:
+            # Find an Event by its ID
             print("Find Event")
             try:
-                event_id = int(input("Enter the Event id: "))
+                event_id = int(input("Enter the Event id: "))  # Validate event ID as integer
             except ValueError:
                 print("Invalid Event ID")
                 continue
             Event.find_by_id(event_id)
         
         elif choice == 0:
+            # Quit the application
             print("Exiting the application...")
-            break
+            break  # Break the loop to exit the program
         
         else:
+            # Handle invalid choices outside the expected range
             print("Invalid choice, please try again.")
-  
 
+# Start the CLI app
 app()
