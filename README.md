@@ -30,15 +30,15 @@ This CLI application is built using Python with SQLAlchemy for ORM and SQLite as
 
 The CLI gives the user the following options:
 
-**Welcome to F1 Weekend**
-**Circuits**
+**Welcome to F1 Weekend**<br>
+**Circuits**<br>
 
 1. Create a Circuit
 2. Delete a Circuit
 3. See all Circuits
 4. Find a Circuit<br>
-   **Teams**
-5. <br>Create Team
+   **Teams**<br>
+5. Create Team
 6. Delete Team
 7. See all Teams
 8. Find a Team<br>
