@@ -62,10 +62,12 @@ The Circuit class represents an F1 circuit, including details like name, country
 **Team Class**
 The Team class represents an F1 team with details such as the name, hometown, drivers, and engine manufacturer. Users can create, delete, view, and search for teams.
 
-**Dependencies**
-Python 3.x
-SQLAlchemy: A Python SQL toolkit and ORM.
-Alembic
+## Dependencies
 
-**License**
+- Python 3.x
+- SQLAlchemy: A Python SQL toolkit and ORM.
+- Alembic
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
