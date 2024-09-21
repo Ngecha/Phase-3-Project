@@ -38,11 +38,11 @@ class Event(Base):
     
      
     @classmethod
-    def delete_event(cls,id):
+    def delete_event(cls,name):
         Session=sessionmaker(bind=engine)
         session=Session()
          
-        query = session.query(Event).filter_by(id=id).first()
+        query = session.query(Event).filter_by(name=name).first()
         session.delete(query)
         session.commit()  
     
@@ -53,9 +53,9 @@ class Event(Base):
             session = Session()
             
             # Query to get all teams
-            all_events = session.query(cls).all()
+            all_events = session.query(cls.name).all()
             
-            return all_events 
+            print(all_events) 
     
     @classmethod    #Method to find a teams using id
     def find_by_id(cls, id):
@@ -186,4 +186,3 @@ class Team(Base):
             
             print(team.name)          
         
-Team.find_by_id(1)
