@@ -9,7 +9,7 @@ An event has one circuit and a team. A circuit has many events and the team has 
 To run the program:
 
 1. Clone the Repo to your machine.
-2. Create an environment,run source phase3_project/bin/activate to activate the environment.
+2. Run source phase3_project/bin/activate to activate the environment.
 3. Run the app.py file that contains the CLI(Command Line Interface).
 
 ## The Program
@@ -64,7 +64,7 @@ The Team class represents an F1 team with details such as the name, hometown, dr
 
 ## Dependencies
 
-- Python 3.x
+- Python 3.10
 - SQLAlchemy: A Python SQL toolkit and ORM.
 - Alembic
 
