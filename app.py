@@ -51,9 +51,12 @@ def app():
             # Delete a Circuit by name
             print("Deleting Circuit") 
             name = input("Enter Circuit name: ")
-            Circuit.delete_circuit(name)
-            print(f"Circuit '{name}' has been deleted.")
-        
+            try:
+                Circuit.delete_circuit(name)
+                print(f"Circuit '{name}' has been deleted.")
+            except ValueError as e:
+                print(e)  
+                 
         elif choice == 3:
             # Display all Circuits
             print("Listing all Circuits...")
@@ -64,10 +67,11 @@ def app():
             print("Find Circuit")
             try:
                 circuit_id = int(input("Enter the Circuit id: "))  # Validate circuit ID as integer
-            except ValueError:
-                print("Invalid Circuit ID")
-                continue
-            Circuit.find_by_id(circuit_id)
+                Circuit.find_by_id(circuit_id)
+            except ValueError as e:
+                print(e)
+                
+            
         
         elif choice == 5:
             # Create a new Team
@@ -83,8 +87,11 @@ def app():
             # Delete a Team by name
             print("Deleting Team")
             name = input("Enter Team name: ")
-            Team.delete_team(name)
-            print(f"Team '{name}' has been deleted.")
+            try:
+              Team.delete_team(name)
+              print(f"Team '{name}' has been deleted.")
+            except ValueError as e:
+                print(e)
         
         elif choice == 7:
             # Display all Teams
@@ -96,10 +103,10 @@ def app():
             print("Find Team")
             try:
                 team_id = int(input("Enter the Team id: "))  # Validate team ID as integer
-            except ValueError:
-                print("Invalid Team ID")
-                continue
-            Team.find_by_id(team_id)
+                Team.find_by_id(team_id)
+            except ValueError as e:
+                print(e)
+            
         
         elif choice == 9:
             # Create a new Event
@@ -118,9 +125,12 @@ def app():
             # Delete an Event by name
             print("Deleting Event")
             name = input("Enter Event name: ")
-            Event.delete_event(name)
-            print(f"Event '{name}' has been deleted.")
-        
+            try:
+              Event.delete_event(name)
+              print(f"Event '{name}' has been deleted.")
+            except ValueError as e:
+                print(e)
+                
         elif choice == 11:
             # Display all Events
             print("Listing all Events...")

@@ -9,7 +9,7 @@ An event has one circuit and a team. A circuit has many events and the team has 
 To run the program:
 
 1. Clone the Repo to your machine.
-2. Create an environment, install SQLalchemy and Alembic in the environment.
+2. Create an environment,run source phase3_project/bin/activate to activate the environment.
 3. Run the app.py file that contains the CLI(Command Line Interface).
 
 ## The Program

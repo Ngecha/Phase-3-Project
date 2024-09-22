@@ -54,8 +54,15 @@ class Event(Base):
         # Query for the event by name
         query = session.query(Event).filter_by(name=name).first()
         # Delete the queried event
-        session.delete(query)
-        session.commit()  
+        if not query:
+        # Handle the case where the circuit does not exist
+         raise ValueError(f"Circuit '{name}' does not exist.")
+        else:
+        # Delete the queried circuit
+         session.delete(query)
+         session.commit()
+       
+
     
     # Class method to get and display all events
     @classmethod
@@ -115,14 +122,20 @@ class Circuit(Base):
     # Class method to delete a circuit by name
     @classmethod
     def delete_circuit(cls, name):
-        Session = sessionmaker(bind=engine)
-        session = Session()
-        
-        # Query for the circuit by name
-        query = session.query(Circuit).filter_by(name=name).first()
+      Session = sessionmaker(bind=engine)
+      session = Session()
+
+    # Query for the circuit by name
+      query = session.query(Circuit).filter_by(name=name).first()
+
+      if not query:
+        # Handle the case where the circuit does not exist
+        raise ValueError(f"Circuit '{name}' does not exist.")
+      else:
         # Delete the queried circuit
         session.delete(query)
         session.commit()
+        
     
     # Class method to get and display all circuits
     @classmethod
@@ -142,6 +155,8 @@ class Circuit(Base):
         
         # Query to find the circuit by ID
         circuit = session.query(cls).filter_by(id=id).first()
+        if not circuit:
+            raise ValueError(f"Circuit {id} doesn't exist")
         print(circuit.name)
 
 # Team Model
@@ -187,9 +202,12 @@ class Team(Base):
         
         # Query for the team by name
         query = session.query(Team).filter(Team.name == name).first()
+        if not query:
+            raise ValueError(f"Circuit '{name}' does not exist.")
+        else:
         # Delete the queried team
-        session.delete(query)
-        session.commit()  
+         session.delete(query)
+         session.commit()  
     
     # Class method to get and display all teams
     @classmethod
@@ -209,4 +227,7 @@ class Team(Base):
         
         # Query to find the team by ID
         team = session.query(cls).filter_by(id=id).first()
+        if not team:
+            raise ValueError(f"Team {id} doesn't exist")
         print(team.name)
+
