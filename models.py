@@ -56,7 +56,7 @@ class Event(Base):
         # Delete the queried event
         if not query:
         # Handle the case where the circuit does not exist
-         raise ValueError(f"Circuit '{name}' does not exist.")
+         raise ValueError(f"Event '{name}' does not exist.")
         else:
         # Delete the queried circuit
          session.delete(query)
@@ -203,7 +203,7 @@ class Team(Base):
         # Query for the team by name
         query = session.query(Team).filter(Team.name == name).first()
         if not query:
-            raise ValueError(f"Circuit '{name}' does not exist.")
+            raise ValueError(f"Team '{name}' does not exist.")
         else:
         # Delete the queried team
          session.delete(query)
